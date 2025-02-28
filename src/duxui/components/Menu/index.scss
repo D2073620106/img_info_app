@@ -1,0 +1,19 @@
+.Menu {
+  background-color: #fff;
+  &__mask {
+    background-color: #000;
+    opacity: 0;
+  }
+  &__content {
+    background-color: #fff;
+    padding: 24px;
+    align-items: center;
+    opacity: 0;
+    &--round {
+      border-radius: 0 0 16px 16px;
+    }
+  }
+}
+.MenuItem {
+  padding: 24px;
+}

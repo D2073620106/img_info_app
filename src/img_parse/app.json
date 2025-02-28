@@ -1,0 +1,9 @@
+{
+  "name": "img_parse",
+  "description": "图片信息解析小程序",
+  "version": "1.0.0",
+  "dependencies": [
+    "duxapp",
+    "duxui"
+  ]
+}
