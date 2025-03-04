@@ -28,6 +28,7 @@ export const User = () => {
             mode='aspectFill'
             src='https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'
           />
+          <Text size={4} bold class='mt-2'>大帅逼</Text>
         </View>
         <Column class='gap-3 mh-3'>
           <Card
