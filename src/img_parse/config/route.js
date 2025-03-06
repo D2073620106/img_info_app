@@ -4,20 +4,23 @@
  * home: 是否是主页 是主页的页面将会被排在前面
  */
 const config = {
-  // path: 'pages',
+  path: 'pages',
   pages: {
     'img_parse/index': {
       pages: {
-        index: {
-          // 创建的新模块的页面默认设置为首页，如果不需要可以删除这个配置
-          home: true
-        },
+        'index': {
+          home:true
+         }
       },
     },
-    'img_parse/pages': {
+    'img_parse/history': {
       pages: {
-        history: {},
-        setting: {},
+        'index': { }
+      },
+    },
+    'img_parse/setting': {
+      pages: {
+        'index': { }
       },
     },
 

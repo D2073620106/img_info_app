@@ -33,7 +33,7 @@ export const User = () => {
         <Column className='gap-3 mh-3'>
           <Card
             shadow={false}
-            onClick={() => route.push("/img_parse/pages/history/index")}
+            onClick={() => route.push("img_parse/pages/history/index")}
           >
             <Row className='gap-2' justify='between' items='center'>
               <Row items='center '>
@@ -47,7 +47,7 @@ export const User = () => {
           </Card>
           <Card
             shadow={false}
-            onClick={() => route.push("/img_parse/pages/setting/index")}
+            onClick={() => route.push("img_parse/pages/setting/index")}
           >
             <Row className='gap-2' justify='between' items='center'>
               <Row items='center '>

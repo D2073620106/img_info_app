@@ -17,7 +17,6 @@ import {
 import { View } from "@tarojs/components";
 import "./home.scss";
 
-View;
 
 export const Home = () => {
   return (
@@ -57,7 +56,7 @@ export const Home = () => {
             <Card
               className='mt-3'
               shadow={false}
-              onClick={() => route.push("/img_parse/pages/history/index")}
+              onClick={() => route.push("img_parse/pages/history/index")}
             >
               <Row className='gap-2' justify='between' items='center'>
                 <Row items='center'>

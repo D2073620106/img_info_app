@@ -57,6 +57,18 @@ const config = {
         // 名称
         appName: 'duxcms'
       }
+    },
+    img_parse:{
+      request:{
+        accessKey: "60461702",
+        secretId:'',
+        origin:'http://localhost:3000/',
+        path:'api',
+        // devOpen: false,
+        // devToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZW1iZXIiLCJpYXQiOjE2NzU2NjA2MzUsImV4cCI6MTY3NTc0NzAzNSwiaWQiOjF9._kX-uT-hUEbo_J3fN5F0HHs0ee01TPNQHrDiH3SHQlc'
+
+      }
+
     }
   }
 }
