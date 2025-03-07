@@ -3,6 +3,7 @@ import { createRequest, createUpload, createRequestHooks, getPlatform, networkVe
 import hmacSha256 from 'crypto-js/hmac-sha256'
 import encHex from 'crypto-js/enc-hex'
 // import qs from 'qs'
+import { user as userManage  } from "@/img_parse/utils";
 
 const  userRequestConfig = userConfig.option.img_parse.request
 
@@ -72,9 +73,11 @@ const before = async params => {
     'Platform': getPlatform(),
     'Content-MD5': sign,
     'Content-Date': contentDate,
+    'Authorization': 'Bearer ' + userManage.data.token,
     ...params.header,
 
   }
+  console.log(params.header,'params.header');
   return params
 }
 requestMiddle.before(before, 10)

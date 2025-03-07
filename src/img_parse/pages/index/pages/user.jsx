@@ -14,10 +14,20 @@ import {
   UiIcon,
 } from "@/duxui";
 import { px, route,duxappTheme } from "@/duxapp";
+import {  request } from "@/img_parse/utils";
 import { View } from "@tarojs/components";
 import "./user.scss";
+import { useEffect } from "react";
 
 export const User = () => {
+
+  useEffect(() => {
+    request({
+      url: "user/info",
+      method: "get",
+    })
+  }, []);
+
   return (
     <>
       <Header title='个人中心' titleCenter />
