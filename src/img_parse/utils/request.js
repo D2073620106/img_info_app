@@ -4,12 +4,14 @@ import hmacSha256 from 'crypto-js/hmac-sha256'
 import encHex from 'crypto-js/enc-hex'
 // import qs from 'qs'
 
+const  userRequestConfig = userConfig.option.img_parse.request
+
 
 const requestConfig = {
   config: {
     request: {
-      origin: userConfig.origin,
-      path: userConfig.path,
+      origin: userRequestConfig.origin,
+      path: userRequestConfig.path,
       contentType: 'application/json'
     },
     result: {
@@ -37,8 +39,6 @@ const { request, throttleRequest, middle: requestMiddle } = createRequest(reques
 const { upload, uploadTempFile, middle: uploadMiddle } = createUpload(requestConfig)
 
 const before = async params => {
-
-  console.log('====')
   const timestamp = Math.round(new Date().getTime() / 1000)
   // const [orign, query] = params.url.split('?')
   // console.log('====1')
@@ -62,13 +62,13 @@ const before = async params => {
   // signData.push(contentMD5)
   signData.push(contentDate)
   // console.log('====3',hmacSha256,config.secretKey)
-  const hash = hmacSha256(signData.join('\n'), userConfig.option.request.accessKey)
+  const hash = hmacSha256(signData.join('\n'), userRequestConfig.accessKey)
   // const hash =signData.join('\n')
   // console.log('====4')
   const sign = encHex.stringify(hash)
   params.header = {
     Accept: 'application/json',
-    AccessKey: userConfig.option.request.secretId,
+    AccessKey: userRequestConfig.secretId,
     'Platform': getPlatform(),
     'Content-MD5': sign,
     'Content-Date': contentDate,
@@ -80,21 +80,20 @@ const before = async params => {
 requestMiddle.before(before, 10)
 uploadMiddle.before(before, 10)
 requestMiddle.result(async (res) => {
-  if (res.statusCode === 200) {
-    const data = res.data.data || {}
-    data._meta = res.data.meta
+  if (res.statusCode >= 200 && res.statusCode < 300) {
+    const data = res.data || {}
+    // data._meta = res.data.meta
     return data
   }
   throw {
     ...(res.data && typeof res.data === 'object' ? res.data : { data: res.data }),
     code: res.statusCode,
-    message: res.data?.message || res.data
+    message: res.data?.msg || res.data
   }
 }, 10)
 
 // ios首次安装无法请求
 requestMiddle.before(networkVerify)
-console.log('1111');
 
 const { useRequest, usePageData } = createRequestHooks(request)
 

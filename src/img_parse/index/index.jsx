@@ -39,19 +39,7 @@ const TabBarIcon = ({ hover, index }) => {
 export default function Index() {
 
 
-  useEffect(async () => {
-    console.log('111');
-    const code = (await login()).code
 
-    const res = await request({
-      url: "auth/register",
-      method: "POST",
-      data: {
-        code,
-      },
-    });
-    console.log(res);
-  }, []);
 
 
   return (
