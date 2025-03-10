@@ -27,7 +27,7 @@ const requestConfig = {
       }
     },
     upload: {
-      api: 'member/upload',
+      api: 'upload',
       requestField: 'file',
       resultField: ['data', 'data', 0, 'url']
     }
@@ -77,7 +77,6 @@ const before = async params => {
     ...params.header,
 
   }
-  console.log(params.header,'params.header');
   return params
 }
 requestMiddle.before(before, 10)
@@ -86,6 +85,7 @@ requestMiddle.result(async (res) => {
   if (res.statusCode >= 200 && res.statusCode < 300) {
     const data = res.data || {}
     // data._meta = res.data.meta
+    console.log(data)
     return data
   }
   throw {

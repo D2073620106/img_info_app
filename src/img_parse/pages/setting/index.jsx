@@ -1,7 +1,37 @@
 import { Header, ScrollView, TopView, duxappTheme, px } from "@/duxapp";
-import { Column, Card, UiIcon, Text, Image, Row, Input } from "@/duxui";
+import { Column, Card, UiIcon, Text, Image, Row, Input,Upload } from "@/duxui";
+import { request,throttleRequest } from "@/img_parse/utils";
+import { useEffect, useState } from "react";
+import './index.scss'
 
 export default function IndexPage() {
+
+  const [userInfo, setUserInfo] = useState({})
+
+  const reload = () => {
+    request('user/info').then(res => {
+      setUserInfo(res.data)
+    })
+  }
+
+  useEffect(() => {
+    reload()
+  }, []);
+
+
+  const onChange = (key, data) => {
+    if(key === 'avatar'){
+      console.log(data);
+    }
+    console.log(key, data);
+    throttleRequest({
+      url: 'user/update',
+      data: { user:{[key]: data} },
+      method: 'post'
+    }).then(res => {
+      reload()
+    })
+  }
   return (
     <TopView>
       <Header title='设置' titleCenter />
@@ -12,12 +42,13 @@ export default function IndexPage() {
               <Text size={2} bold>
                 头像
               </Text>
-              <Image
+              {/* <Image
                 className='r-max'
                 style={{ width: px(130), height: px(130) }}
                 mode='aspectFill'
                 src='https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'
-              ></Image>
+              ></Image> */}
+                <Upload type='image' className='upload' onChange={e => onChange('avatar', e)} max={1} defaultValue={userInfo.avatar || 'https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'}/>
             </Row>
           </Card>
           <Card shadow={false}>
@@ -27,6 +58,8 @@ export default function IndexPage() {
               </Text>
               <Input
                 class='flex-grow text-right'
+                value={userInfo.nickname}
+                onChange={e => onChange('nickname', e)}
                 style={{ marginLeft: px(24) }}
               ></Input>
             </Row>

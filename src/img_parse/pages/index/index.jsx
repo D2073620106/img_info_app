@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { TopView, TabBar, duxappTheme } from "@/img_parse";
-import { user as userManage , request } from "@/img_parse/utils";
+import { user as userManage, request } from "@/img_parse/utils";
 import { UiIcon } from "@/duxui";
 import { View, Image, Text } from "@tarojs/components";
 import { login } from '@tarojs/taro'
@@ -49,16 +49,19 @@ export default function Index() {
   //   <Text className='bg-danger text-c4' onClick={() => setItems('baseline')}>baseline</Text>
   // </Column>
 
-  useEffect( () => {
-    login().then(res=>{
+  useEffect(() => {
+    if (userManage.data.token) {
+      return
+    }
+    login().then(res => {
       request({
         url: "auth/login",
         method: "POST",
         data: {
-          code:res.code,
+          code: res.code,
         },
-      }).then(res1=>{
-        userManage.set({token:res1.data.token})
+      }).then(res1 => {
+        userManage.set({ token: res1.data.token })
       })
     })
   }, []);
