@@ -27,9 +27,11 @@ const requestConfig = {
       }
     },
     upload: {
+      code:'code',
+      message:'msg',
       api: 'upload',
       requestField: 'file',
-      resultField: ['data', 'data', 0, 'url']
+      resultField: ['data', 'data',  'url']
     }
   },
   middle: {}

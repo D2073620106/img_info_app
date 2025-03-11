@@ -20,9 +20,7 @@ export default function IndexPage() {
 
 
   const onChange = (key, data) => {
-    if(key === 'avatar'){
-      console.log(data);
-    }
+
     console.log(key, data);
     throttleRequest({
       url: 'user/update',
@@ -48,7 +46,7 @@ export default function IndexPage() {
                 mode='aspectFill'
                 src='https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'
               ></Image> */}
-                <Upload type='image' className='upload' onChange={e => onChange('avatar', e)} max={1} defaultValue={userInfo.avatar || 'https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'}/>
+                <Upload type='image' className='upload' onChange={e => onChange('avatar', e)} max={1} defaultValue={userInfo.avatar}/>
             </Row>
           </Card>
           <Card shadow={false}>
