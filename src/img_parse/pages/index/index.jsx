@@ -1,3 +1,9 @@
+/*
+ * @Date: 2025-03-08 11:31:23
+ * @LastEditors: DMBro 2073620106@qq.com
+ * @LastEditTime: 2025-03-12 15:14:28
+ * @FilePath: \app\src\img_parse\pages\index\index.jsx
+ */
 import { useEffect } from "react";
 import { TopView, TabBar, duxappTheme } from "@/img_parse";
 import { user as userManage, request } from "@/img_parse/utils";
@@ -62,6 +68,11 @@ export default function Index() {
         },
       }).then(res1 => {
         userManage.set({ token: res1.data.token })
+        request({
+          url: "user/info",
+        }).then(res2 => {
+          userManage.set({ ...userManage.data, ...res2.data })
+        })
       })
     })
   }, []);

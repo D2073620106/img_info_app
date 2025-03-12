@@ -1,4 +1,5 @@
-import { createRequest, createUpload, createRequestHooks, getPlatform, networkVerify, userConfig } from '@/duxapp/utils'
+import { createRequest, createUpload, createRequestHooks, getPlatform, networkVerify, userConfig ,} from '@/duxapp/utils'
+import { createList} from '@/duxapp'
 // import md5 from 'crypto-js/md5'
 import hmacSha256 from 'crypto-js/hmac-sha256'
 import encHex from 'crypto-js/enc-hex'
@@ -102,6 +103,8 @@ requestMiddle.before(networkVerify)
 
 const { useRequest, usePageData } = createRequestHooks(request)
 
+const List = createList(usePageData)
+
 export {
   request,
   throttleRequest,
@@ -110,5 +113,6 @@ export {
   uploadTempFile,
   uploadMiddle,
   useRequest,
-  usePageData
+  usePageData,
+  List
 }

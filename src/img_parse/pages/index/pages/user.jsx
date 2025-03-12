@@ -1,3 +1,9 @@
+/*
+ * @Date: 2025-03-08 11:31:23
+ * @LastEditors: DMBro 2073620106@qq.com
+ * @LastEditTime: 2025-03-12 15:13:49
+ * @FilePath: \app\src\img_parse\pages\index\pages\user.jsx
+ */
 import {
   Header,
   ScrollView,
@@ -14,32 +20,27 @@ import {
   UiIcon,
 } from "@/duxui";
 import { px, route,duxappTheme } from "@/duxapp";
-import {  request } from "@/img_parse/utils";
+import {  request,user as UserManage } from "@/img_parse/utils";
 import { View } from "@tarojs/components";
-import "./user.scss";
 import { useEffect , useState} from "react";
+import "./user.scss";
 
 export const User = () => {
 
 
-  const [userInfo,setUserInfo] = useState({})
+  const userInfo = UserManage.useData()
 
-  useEffect(() => {
-    request('user/info').then(res=>{
-      setUserInfo(res.data)
-    })
-  }, []);
 
   return (
     <>
       <Header title='个人中心' titleCenter />
       <ScrollView style='height: 100%; width: 100%; background: linear-gradient(180deg,#cbc9fe,#fff)'>
         <View className='avatar flex items-center w-full  justify-center'>
-          <Image
-            className='avatar__image'
-            mode='aspectFill'
-            src={userInfo.avatar || 'https://img0.baidu.com/it/u=1684532727,1424929765&fm=253&app=120&size=w931&n=0&f=JPEG&fmt=auto?sec=1681318800&t=50301360a9bd698d5f29da34ffb5cbb0'}
-          />
+         {userInfo.avatar ? <Image
+           className='avatar__image'
+           mode='aspectFill'
+           src={userInfo.avatar}
+         /> : <View className='avatar__image'>{userInfo.nickname}</View>}
           <Text size={4} bold  className='mt-2'>{userInfo.nickname}</Text>
         </View>
         <Column className='gap-3 mh-3'>
