@@ -84,6 +84,7 @@ export const Home = () => {
             {img ? <Image
               className='upload'
               mode='aspectFill'
+              preview
               src={img}
 
             ></Image> : <View className='upload flex items-center justify-center' onClick={!~progress && add}>
