@@ -60,6 +60,7 @@ export const Home = () => {
   };
 
   const add = useCallback(async () => {
+    setImgInfo({})
     const upload = formConfig.getUpload()
     try {
       if (process.env.TARO_ENV === 'rn') {
@@ -109,7 +110,7 @@ export const Home = () => {
             {
               progress >= 0 && <Card shadow={false} >
                 <Row items="center">
-                  <Loading></Loading>
+                  <Loading style={{marginRight:px(12)}}></Loading>
                   <Text size={2}>
                     加载中
                   </Text>
@@ -119,7 +120,7 @@ export const Home = () => {
             {
               parseLoading && <Card shadow={false} >
                 <Row items="center">
-                  <Loading></Loading>
+                  <Loading style={{marginRight:px(12)}}></Loading>
                   <Text size={2}>
                     解析中
                   </Text>
