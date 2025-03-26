@@ -30,7 +30,7 @@ const requestConfig = {
     upload: {
       code:'code',
       message:'msg',
-      api: 'upload',
+      api: 'upload/image',
       requestField: 'file',
       resultField: ['data', 'data',  'url']
     }

@@ -26,3 +26,10 @@ yarn dev weapp --app=duxui
 如何使用这个框架，请阅读开发文档
 
 [duxapp.cn](http://duxapp.cn)
+
+
+
+## 接口文档地址
+```bash
+https://img-info-api.dmmone.top/api/docs#/User/UserController_getUserList
+```

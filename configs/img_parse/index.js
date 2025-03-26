@@ -36,7 +36,7 @@ const config = {
     // cms框架
     duxcms: {
       request: {
-        origin: "https://shujumatou.2c99.com",
+        // origin: "https://shujumatou.2c99.com",
         // origin: 'http://192.168.2.24:8090',
         path: "api", // 域名二级目录
         accessKey: "60461702",
@@ -62,7 +62,7 @@ const config = {
       request:{
         accessKey: "60461702",
         secretId:'',
-        origin:'http://localhost:3000',
+        origin:'https://img-info-api.dmmone.top',
         path:'api',
         // devOpen: false,
         // devToken: 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJtZW1iZXIiLCJpYXQiOjE2NzU2NjA2MzUsImV4cCI6MTY3NTc0NzAzNSwiaWQiOjF9._kX-uT-hUEbo_J3fN5F0HHs0ee01TPNQHrDiH3SHQlc'
