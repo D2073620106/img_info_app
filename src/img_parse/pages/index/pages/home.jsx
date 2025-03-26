@@ -20,14 +20,15 @@ import {
   duxappTheme,
   route,
   Image,
-  Button
+  Button,
+  Loading
 } from "@/duxui";
 import { formConfig } from '@/duxui/components/Form/config'
 import { View } from "@tarojs/components";
 import { request, getSize } from "@/img_parse/utils";
 import { useState, useCallback } from "react";
 import "./home.scss";
-import { px } from "@/duxapp/utils/util";
+import { px, toast } from "@/duxapp/utils/util";
 
 
 export const Home = () => {
@@ -35,10 +36,12 @@ export const Home = () => {
   const [imgInfo, setImgInfo] = useState({})
   const [img, setImg] = useState('')
   const [progress, setProgress] = useState(-1)
+  const [parseLoading, setParseLoading] = useState(false)
 
 
   const onChange = (e) => {
     if (!e) return;
+    setParseLoading(true)
     request({
       url: 'image_parse/parse',
       method: 'POST',
@@ -46,7 +49,13 @@ export const Home = () => {
         url: e
       }
     }).then(res => {
+      setParseLoading(false)
       setImgInfo(res.data)
+    }).catch(error => {
+      console.log(error)
+      toast('解析失败')
+    }).finally(() => {
+      setParseLoading(false)
     })
   };
 
@@ -57,7 +66,7 @@ export const Home = () => {
         await requestPermissionMessage(requestPermissionMessage.types.image)
       }
       let _type = 'image'
-      const urls = await upload(_type, { count: 1, sourceType: ['album', 'camera'] })
+      const urls = await upload(_type, { count: 1, sourceType: ['album'] })
         .start(() => {
           setProgress(0)
         })
@@ -89,15 +98,35 @@ export const Home = () => {
 
             ></Image> : <View className='upload flex items-center justify-center' onClick={!~progress && add}>
               <View className="flex items-center justify-center">
-                <UiIcon name='camera' size={158}  color={'#999'}></UiIcon>
+                <UiIcon name='camera' size={158} color={'#999'}></UiIcon>
                 <View className="" style={{ width: px(560) }}>
                   <Text size={2} color={'#999'}>
-                  上传图片,即可解析，获取图片信息，包含图片拍摄时间，图片大小，拍摄地址，请上传未压缩图片
+                    上传图片,即可解析，获取图片信息，包含图片拍摄时间，图片大小，拍摄地址，请上传未压缩图片
                   </Text>
                 </View>
               </View>
             </View>}
-            {!!Object.keys(imgInfo).length && <Card shadow={false} >
+            {
+              progress >= 0 && <Card shadow={false} >
+                <Row items="center">
+                  <Loading></Loading>
+                  <Text size={2}>
+                    加载中
+                  </Text>
+                </Row>
+              </Card>
+            }
+            {
+              parseLoading && <Card shadow={false} >
+                <Row items="center">
+                  <Loading></Loading>
+                  <Text size={2}>
+                    解析中
+                  </Text>
+                </Row>
+              </Card>
+            }
+            {!!Object.keys(imgInfo).length && progress === -1 && !parseLoading && <Card shadow={false} >
               <Column className='gap-2'>
                 <Text size={4} color={duxappTheme.primaryColor}>
 
@@ -124,8 +153,9 @@ export const Home = () => {
                 </Text>
               </Column>
             </Card>}
+
             {
-              img &&  <Button  onClick={!~progress && add} radiusType='round' size='l' color={['#695afd', '#b9b6fd']} >换图</Button>
+              img && <Button onClick={!~progress && add} radiusType='round' size='l' color={['#695afd', '#b9b6fd']} >换图</Button>
             }
 
             <Card
@@ -146,6 +176,17 @@ export const Home = () => {
                 <UiIcon name='arrow-right' size={38}></UiIcon>
               </Row>
             </Card>
+            <View className='flex flex-col '>
+              <Text size={2} color={duxappTheme.secondaryColor} >
+                1、选择图片时请选择原图
+              </Text>
+              <Text size={2}  color={duxappTheme.secondaryColor} >
+                2、微信传输的图片非原图，无法解析拍摄时间
+              </Text>
+              <Text size={2}  color={duxappTheme.secondaryColor} >
+                3、微信原图只能解析出拍摄时间，解析不出拍摄地址，需要解析地址不要通过微信传输
+              </Text>
+            </View>
           </Column>
         </View>
       </ScrollView>
