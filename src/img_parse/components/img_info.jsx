@@ -1,4 +1,4 @@
-import { duxappTheme,dayjs } from "@/duxapp";
+import { duxappTheme, dayjs } from "@/duxapp";
 import {
   Card,
   Column,
@@ -6,6 +6,31 @@ import {
   Row
 } from "@/duxui";
 import { View } from "@tarojs/components";
+import './img_info.scss'
+
+const CollapsibleSection = ({ title, content }) => {
+  const [isOpen, setIsOpen] = useState(false)
+
+  return (
+    <View className='collapsible-section'>
+      <View
+        className='summary'
+        onClick={() => setIsOpen(!isOpen)}
+      >
+        <Text>{title}</Text>
+        <Text className={`arrow ${isOpen ? 'open' : ''}`}>▼</Text>
+      </View>
+
+      {isOpen && (
+        <View className='content'>
+          <Text className='preformatted'>
+            {content}
+          </Text>
+        </View>
+      )}
+    </View>
+  )
+}
 
 const ImageExifViewer = ({ exifData }) => {
   // 格式化文件大小
@@ -43,12 +68,13 @@ const ImageExifViewer = ({ exifData }) => {
     {
       title: '基本信息',
       items: [
-        { label: '上传时间', value: dayjs(new Date(exifData?.createdAt)).format('YYYY-MM-DD HH:mm:ss')  },
+        { label: '上传时间', value: dayjs(new Date(exifData?.createdAt)).format('YYYY-MM-DD HH:mm:ss') },
         { label: '文件类型', value: exifData?.FileType?.description },
         { label: '文件大小', value: getSize(exifData?.fileSize) },
-        { label: '图像尺寸', value: exifData?.ImageWidth?.value && exifData?.ImageLength?.value
-          ? `${exifData.ImageWidth.value} × ${exifData.ImageLength.value} 像素`
-          : null
+        {
+          label: '图像尺寸', value: exifData?.ImageWidth?.value && exifData?.ImageLength?.value
+            ? `${exifData.ImageWidth.value} × ${exifData.ImageLength.value} 像素`
+            : null
         }
       ]
     },
@@ -97,9 +123,10 @@ const ImageExifViewer = ({ exifData }) => {
       items: [
         { label: '色彩空间', value: exifData?.ColorSpace?.description },
         { label: '方向', value: exifData?.Orientation?.description },
-        { label: '分辨率', value: exifData?.XResolution?.value && exifData?.YResolution?.value
-          ? `${formatResolution(exifData.XResolution.value)} × ${formatResolution(exifData.YResolution.value)} ${exifData?.ResolutionUnit?.description === 'inches' ? '英寸' : '像素'}`
-          : null
+        {
+          label: '分辨率', value: exifData?.XResolution?.value && exifData?.YResolution?.value
+            ? `${formatResolution(exifData.XResolution.value)} × ${formatResolution(exifData.YResolution.value)} ${exifData?.ResolutionUnit?.description === 'inches' ? '英寸' : '像素'}`
+            : null
         },
         { label: '位深度', value: exifData?.['Bits Per Sample']?.value },
         { label: '压缩方式', value: exifData?.Compression?.description },
@@ -121,9 +148,10 @@ const ImageExifViewer = ({ exifData }) => {
       title: '缩略图信息',
       items: [
         { label: '缩略图格式', value: exifData?.Thumbnail?.type },
-        { label: '缩略图尺寸', value: exifData?.Thumbnail?.image?.width && exifData?.Thumbnail?.image?.height
-          ? `${exifData.Thumbnail.image.width} × ${exifData.Thumbnail.image.height} 像素`
-          : null
+        {
+          label: '缩略图尺寸', value: exifData?.Thumbnail?.image?.width && exifData?.Thumbnail?.image?.height
+            ? `${exifData.Thumbnail.image.width} × ${exifData.Thumbnail.image.height} 像素`
+            : null
         },
         { label: '缩略图压缩', value: exifData?.Thumbnail?.Compression?.description }
       ]
@@ -131,22 +159,13 @@ const ImageExifViewer = ({ exifData }) => {
     {
       title: '高级功能',
       items: [
-        { label: '用户注释', value: exifData?.UserComment?.value?.[0] ? '查看详情' : null,
+        {
+          label: '用户注释', value: exifData?.UserComment?.value?.[0] ? '查看详情' : null,
           render: exifData?.UserComment?.value?.[0] ? (
-            <details>
-              <summary>点击查看</summary>
-              <pre style={{
-                whiteSpace: 'pre-wrap',
-                wordBreak: 'break-word',
-                fontSize: '12px',
-                padding: '8px',
-                backgroundColor: '#f5f5f5',
-                borderRadius: '4px',
-                marginTop: '8px'
-              }}>
-                {exifData.UserComment.value[0]}
-              </pre>
-            </details>
+            <CollapsibleSection
+              title="查看详情"
+              content={exifData.UserComment.value[0]}
+            />
           ) : null
         },
         { label: '多帧合成', value: exifData?.UserComment?.value?.[0]?.includes('multi-frame') ? '是' : null },
@@ -206,12 +225,9 @@ const ImageExifViewer = ({ exifData }) => {
   );
 };
 
-// 简单的ImageExifViewer
-const SimpleImageExifViewer = ({ exifData }) => {
-};
+
 
 export {
   ImageExifViewer,
-  SimpleImageExifViewer
 };
 
