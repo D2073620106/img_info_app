@@ -7,6 +7,7 @@ import {
 } from "@/duxui";
 import { View } from "@tarojs/components";
 import './img_info.scss'
+import {useState} from 'react'
 
 const CollapsibleSection = ({ title, content }) => {
   const [isOpen, setIsOpen] = useState(false)
