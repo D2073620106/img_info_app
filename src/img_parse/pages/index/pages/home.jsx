@@ -1,9 +1,4 @@
-/*
- * @Date: 2025-03-08 11:31:23
- * @LastEditors: DMBro 2073620106@qq.com
- * @LastEditTime: 2025-03-12 14:47:15
- * @FilePath: \app\src\img_parse\pages\index\pages\home.jsx
- */
+
 import {
   Header,
   ScrollView,
@@ -29,6 +24,7 @@ import { request, getSize } from "@/img_parse/utils";
 import { useState, useCallback } from "react";
 import "./home.scss";
 import { px, toast } from "@/duxapp/utils/util";
+import { ImageExifViewer, WarnInfo } from "@/img_parse";
 
 
 export const Home = () => {
@@ -100,9 +96,9 @@ export const Home = () => {
             ></Image> : <View className='upload flex items-center justify-center' onClick={!~progress && add}>
               <View className="flex items-center justify-center">
                 <UiIcon name='camera' size={158} color={'#999'}></UiIcon>
-                <View className="" style={{ width: px(560) }}>
-                  <Text size={2} color={'#999'}>
-                    上传图片,即可解析，获取图片信息，包含图片拍摄时间，图片大小，拍摄地址，请上传未压缩图片
+                <View className="" style={{ width: px(420) }}>
+                  <Text size={2} color={'#999'} style={{ textAlign: 'center' }}>
+                    上传图片，即可解析获的图片拍摄时间、大小、拍摄地址等信息
                   </Text>
                 </View>
               </View>
@@ -110,7 +106,7 @@ export const Home = () => {
             {
               progress >= 0 && <Card shadow={false} >
                 <Row items="center">
-                  <Loading style={{marginRight:px(12)}}></Loading>
+                  <Loading style={{ marginRight: px(12) }}></Loading>
                   <Text size={2}>
                     加载中
                   </Text>
@@ -120,41 +116,13 @@ export const Home = () => {
             {
               parseLoading && <Card shadow={false} >
                 <Row items="center">
-                  <Loading style={{marginRight:px(12)}}></Loading>
+                  <Loading style={{ marginRight: px(12) }}></Loading>
                   <Text size={2}>
                     解析中
                   </Text>
                 </Row>
               </Card>
             }
-            {!!Object.keys(imgInfo).length && progress === -1 && !parseLoading && <Card shadow={false} >
-              <Column className='gap-2'>
-                <Text size={4} color={duxappTheme.primaryColor}>
-
-                  图片信息解析如下
-                </Text>
-                <Text size={2}>
-                  <Text bold>拍摄时间：</Text>
-                  <Text>{imgInfo.shotAt || '解析失败'}</Text>
-                </Text>
-                <Text size={2}>
-                  <Text bold>拍摄地址：</Text>
-                  <Text>{imgInfo.address || '解析失败'}</Text>
-                </Text>
-                <Text size={2}>
-                  <Text bold>图片大小：</Text>
-                  <Text>{getSize(imgInfo.result?.fileSize) || '解析失败'}</Text>
-                </Text>
-                <Text size={3} color={duxappTheme.secondaryColor}>
-                  <UiIcon
-                    name='info'
-                    color={duxappTheme.secondaryColor}
-                  ></UiIcon>
-                  被压缩的图片会解析不出内容，请确保图片未被压缩
-                </Text>
-              </Column>
-            </Card>}
-
             {
               img && <Button onClick={!~progress && add} radiusType='round' size='l' color={['#695afd', '#b9b6fd']} >换图</Button>
             }
@@ -177,17 +145,34 @@ export const Home = () => {
                 <UiIcon name='arrow-right' size={38}></UiIcon>
               </Row>
             </Card>
-            <View className='flex flex-col '>
-              <Text size={2} color={duxappTheme.secondaryColor} >
-                1、选择图片时请选择原图
-              </Text>
-              <Text size={2}  color={duxappTheme.secondaryColor} >
-                2、微信传输的图片非原图，无法解析拍摄时间
-              </Text>
-              <Text size={2}  color={duxappTheme.secondaryColor} >
-                3、微信原图只能解析出拍摄时间，解析不出拍摄地址，需要解析地址不要通过微信传输
-              </Text>
-            </View>
+            {!!Object.keys(imgInfo).length && progress === -1 && !parseLoading &&
+              <ImageExifViewer exifData={{ ...imgInfo.result.exif, fileSize: imgInfo.result.fileSize, createdAt: imgInfo?.createdAt }} />
+            }
+            {/*
+            <Card shadow={false} >
+              <Column className='gap-2'>
+                <Text size={4} color={duxappTheme.primaryColor}>
+                  基本文件信息
+                </Text>
+                <Text size={2}>
+                  <Text bold>拍摄时间：</Text>
+                  <Text>{imgInfo.shotAt || '解析失败'}</Text>
+                </Text>
+                <Text size={2}>
+                  <Text bold>拍摄地址：</Text>
+                  <Text>{imgInfo.address || '解析失败'}</Text>
+                </Text>
+                <Text size={2}>
+                  <Text bold>图片大小：</Text>
+                  <Text>{getSize(imgInfo.result?.fileSize) || '解析失败'}</Text>
+                </Text>
+              </Column>
+            </Card>
+
+            */}
+
+
+            <WarnInfo />
           </Column>
         </View>
       </ScrollView>

@@ -88,13 +88,26 @@ export default function IndexPage() {
           <Card shadow={false}>
             <Row items='center'>
               <Text size={2} bold>
+                账户名<Text size={2}>（默认生成）</Text>
+              </Text>
+              <view
+                class='flex-grow text-right'
+                style={{ marginLeft: px(24),fontSize: px(26) }}
+              >
+                {userInfo.username}
+              </view>
+            </Row>
+          </Card>
+          <Card shadow={false}>
+            <Row items='center'>
+              <Text size={2} bold>
                 昵称
               </Text>
               <Input
                 class='flex-grow text-right'
                 value={userInfo.nickname}
                 onChange={e => onChange('nickname', e)}
-                style={{ marginLeft: px(24) }}
+                style={{ marginLeft: px(24),fontSize: px(26) }}
               ></Input>
             </Row>
           </Card>

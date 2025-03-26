@@ -15,7 +15,8 @@ const config = {
     },
     'img_parse/history': {
       pages: {
-        'index': { }
+        'index': { },
+        'detail': { }
       },
     },
     'img_parse/setting': {

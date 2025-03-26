@@ -1,19 +1,17 @@
-/*
- * @Date: 2025-03-08 11:31:23
- * @LastEditors: DMBro 2073620106@qq.com
- * @LastEditTime: 2025-03-12 15:50:02
- * @FilePath: \app\src\img_parse\pages\history\index.jsx
- */
-import { Header, ScrollView, TopView, duxappTheme, px } from "@/duxapp";
-import { Column, Card, UiIcon, Text, Image, Row } from "@/duxui";
-import { List,getSize } from "@/img_parse/utils";
+
+import { Header, TopView, dayjs, px, route } from "@/duxapp";
+import { Card, Column, Image, Text } from "@/duxui";
+import { List, getSize } from "@/img_parse/utils";
 import { View } from "@tarojs/components";
 
 
 
 const ImageParseItem = ({item}) => {
-  console.log(item,'item');
-  return <Card shadow={false} row className='mt-3 mh-3'>
+
+  const onClick = () => {
+    route.push("img_parse/pages/history/detail",item)
+  }
+  return <Card shadow={false} row className='mt-3 mh-3' onClick={() => onClick()}>
   <Image
     style={{ width: px(142), height: px(142) }}
     mode='aspectFill'
@@ -21,15 +19,15 @@ const ImageParseItem = ({item}) => {
   />
   <View>
     <Column class='gap-2' style={{ marginLeft: px(24)}}>
-      <Text size={3} bold>
-        <Text bold>拍摄时间：</Text>
-        <Text>{item.shotAt || '解析失败'}</Text>
+      <Text size={2} bold>
+        <Text bold>上传时间：</Text>
+        <Text>{dayjs(new Date(item.createdAt)).format('YYYY-MM-DD HH:mm:ss') || '解析失败'}</Text>
       </Text>
-      <Text size={3} bold>
-        <Text bold>拍摄地址：</Text>
-        <Text>{item.address || '解析失败'}</Text>
+      <Text size={2} bold>
+        <Text bold>文件类型：</Text>
+        <Text>{item.result?.exif?.FileType?.description || '解析失败'}</Text>
       </Text>
-      <Text size={3} bold>
+      <Text size={2} bold>
         <Text bold>图片大小：</Text>
         <Text>{getSize(item.result?.fileSize) || '解析失败'}</Text>
       </Text>
