@@ -12,11 +12,12 @@ import { View } from "@tarojs/components";
 
 
 const ImageParseItem = ({item}) => {
+  console.log(item,'item');
   return <Card shadow={false} row className='mt-3 mh-3'>
   <Image
     style={{ width: px(142), height: px(142) }}
     mode='aspectFill'
-    src={item.thumbUrl}
+    src={item.imageUrl}
   />
   <View>
     <Column class='gap-2' style={{ marginLeft: px(24)}}>
