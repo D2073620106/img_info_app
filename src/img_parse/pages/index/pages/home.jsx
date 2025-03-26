@@ -19,16 +19,22 @@ import {
   Row,
   duxappTheme,
   route,
+  Image,
+  Button
 } from "@/duxui";
+import { formConfig } from '@/duxui/components/Form/config'
 import { View } from "@tarojs/components";
-import { request,getSize } from "@/img_parse/utils";
-import { useState } from "react";
+import { request, getSize } from "@/img_parse/utils";
+import { useState, useCallback } from "react";
 import "./home.scss";
+import { px } from "@/duxapp/utils/util";
 
 
 export const Home = () => {
 
   const [imgInfo, setImgInfo] = useState({})
+  const [img, setImg] = useState('')
+  const [progress, setProgress] = useState(-1)
 
 
   const onChange = (e) => {
@@ -43,6 +49,27 @@ export const Home = () => {
       setImgInfo(res.data)
     })
   };
+
+  const add = useCallback(async () => {
+    const upload = formConfig.getUpload()
+    try {
+      if (process.env.TARO_ENV === 'rn') {
+        await requestPermissionMessage(requestPermissionMessage.types.image)
+      }
+      let _type = 'image'
+      const urls = await upload(_type, { count: 1, sourceType: ['album', 'camera'] })
+        .start(() => {
+          setProgress(0)
+        })
+        .progress(setProgress)
+      setProgress(-1)
+      setImg(urls[0])
+      onChange(urls[0])
+    } catch (error) {
+      setProgress(-1)
+    }
+  }, [onChange])
+
   return (
     <>
       <Header title='首页' titleCenter />
@@ -53,8 +80,22 @@ export const Home = () => {
         ></View>
         <View className='z-2 p-3'>
           <Column className='gap-3'>
-            <Upload className='upload' max={1} onChange={e => onChange(e)} />
+            {/* <Upload className='upload' max={1} onChange={e => onChange(e)} addText='上传图片,即可解析，获取图片信息，包含图片拍摄时间，图片大小，拍摄地址，请上传未压缩图片' /> */}
+            {img ? <Image
+              className='upload'
+              mode='aspectFill'
+              src={img}
 
+            ></Image> : <View className='upload flex items-center justify-center' onClick={!~progress && add}>
+              <View className="flex items-center justify-center">
+                <UiIcon name='camera' size={158}  color={'#999'}></UiIcon>
+                <View className="" style={{ width: px(560) }}>
+                  <Text size={2} color={'#999'}>
+                  上传图片,即可解析，获取图片信息，包含图片拍摄时间，图片大小，拍摄地址，请上传未压缩图片
+                  </Text>
+                </View>
+              </View>
+            </View>}
             {!!Object.keys(imgInfo).length && <Card shadow={false} >
               <Column className='gap-2'>
                 <Text size={4} color={duxappTheme.primaryColor}>
@@ -82,6 +123,10 @@ export const Home = () => {
                 </Text>
               </Column>
             </Card>}
+            {
+              img &&  <Button  onClick={!~progress && add} radiusType='round' size='l' color={['#695afd', '#b9b6fd']} >换图</Button>
+            }
+
             <Card
               shadow={false}
               onClick={() => route.push("img_parse/pages/history/index")}
