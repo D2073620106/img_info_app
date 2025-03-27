@@ -15,7 +15,7 @@ const CollapsibleSection = ({ title, content }) => {
   return (
     <View className='collapsible-section'>
       <View
-        className='summary'
+        className='summary flex'
         onClick={() => setIsOpen(!isOpen)}
       >
         <Text>{title}</Text>

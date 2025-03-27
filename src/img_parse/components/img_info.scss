@@ -1,21 +1,19 @@
 .collapsible-section {
-  margin-bottom: 16px;
+  flex: 1;
 
   .summary {
-    display: flex;
+    display: inline-block;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
 
     .arrow {
       transition: transform 0.3s;
-      font-size: 12px;
+      font-size: 24px;
+      transform: rotate(90deg);
 
-      &.open {
-        transform: rotate(180deg);
-      }
+      // &.open {
+
+      // }
     }
   }
 
@@ -28,7 +26,7 @@
     .preformatted {
       white-space: pre-wrap;
       word-break: break-word;
-      font-size: 12px;
+      font-size: 24px;
       font-family: monospace;
     }
   }
