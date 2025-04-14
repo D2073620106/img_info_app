@@ -12,4 +12,7 @@ yarn build weapp --app=img_parse
 ```
 
 ## 预览
+![](https://raw.githubusercontent.com/D2073620106/img_info_app/refs/heads/master/img_preview/20250414175026.jpg?token=GHSAT0AAAAAADAKA5K3F5GOHKJBOEJTDPH6Z743NMA)
+![](https://raw.githubusercontent.com/D2073620106/img_info_app/refs/heads/master/img_preview/20250414175108.jpg?token=GHSAT0AAAAAADAKA5K3CBR6JNWRC2TXLS2AZ743P4A)
+![](https://raw.githubusercontent.com/D2073620106/img_info_app/refs/heads/master/img_preview/20250414175113.jpg?token=GHSAT0AAAAAADAKA5K3ETVHQJP25T3E4UWSZ743QGA)
 
